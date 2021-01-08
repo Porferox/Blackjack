@@ -1,0 +1,157 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp1{
+    class Program{
+        static void Main(string[] args){
+			int jogar, creditos, cardbanca=0, cardjog=0, A=0, Avalor,cb1,cb2,cj1,cj2,cbp,cjp,cont;
+			String []baralho = {"Vazio","Ás","2","3","4","5","6","7","8","9","10","J","Q","K"};
+            creditos = 100;
+
+            Console.WriteLine("\tBlack Jack");
+
+            Console.WriteLine("Qual será o valor do Ás? (Digite 1 para valer 1 ou 2 para valer 11)");
+            Avalor = Convert.ToInt32(Console.ReadLine());
+            if (Avalor<=1){ A = 1; } else if (Avalor>=2){ A = 11; }
+            jogar=0;
+           
+            while(creditos>1){
+            	while(jogar==0){
+	                Console.Write("\n\nDigite 1 para iniciar a partida: ");
+	                jogar = Convert.ToInt32(Console.ReadLine());
+	                if (jogar>=1){
+	                    Random cartas = new Random();
+	                    cb1 = cartas.Next(1,14);
+	                    cb2 = cartas.Next(1,14);  
+	                    Console.WriteLine("\n    Cartas da banca: " + baralho[cb1] + " e " + baralho[cb2]+".");
+								if(cb1>=11 && cb1<=14){
+									cardbanca += 10;
+	                    		}else if(cb1==1){
+	                    			cardbanca += A;
+	                    		}else{
+	                    			cardbanca += cb1;
+	                    		}
+	                    
+	                    		if(cb2>=11 && cb2<=14){
+			                    	cardbanca += 10;	
+			                    }else if(cb2==1){
+	                    			cardbanca += A;
+			                    }else{
+	                    			cardbanca += cb2;
+			                    }
+	                    
+	                    cj1 = cartas.Next(1,14);
+	                    cj2 = cartas.Next(1,14);
+	                    Console.WriteLine("\n    Cartas do jogador: " + baralho[cj1] + " e " + baralho[cj2]+".");
+	                    		if(cj1>=11 && cj1<=14){
+	                    			cardjog += 10;
+	                    		} else if(cj1==1){
+	                    			cardjog += A;
+			                    }else{
+	                    			cardjog += cj1;
+			                    }
+	                    
+			                    if(cj2>=11 && cj2<=14){
+	                    			cardjog += 10;
+			                    } else if(cj2==1){
+	                    			cardjog += A;
+			                    }else{
+	                    			cardjog += cj2;
+			                    }
+	                    
+	                    Console.WriteLine("\n\tTotal de pontos da banca:  "+ cardbanca + ".");
+	                    Console.WriteLine("\tTotal de pontos do jogador:  "+ cardjog + ".");
+
+	                    while(cardbanca<=20 || cardjog<=20){
+	                    	if((cj1==1 && cj2==10)||(cj1==10 && cj2==1)){
+	                    		Console.WriteLine("\n    O jogador tirou um Ás e um 10.");
+	                    		creditos = creditos + 15;
+						        jogar=0; break;
+	                    		}
+	                        Console.Write("\nDeseja pegar mais uma carta? (Digite 1 para SIM ou 0 para NÃO) ");
+	                        cont = Convert.ToInt32(Console.ReadLine());
+	                        if (cont >= 1){
+	                        	cbp = cartas.Next(1,14);
+	                        	Console.WriteLine("\n    A carta da banca foi: " + baralho[cbp] + ".");
+	                        	if(cbp>=11 && cbp<=14){
+								cbp=10;
+	                    		}if(cbp==1){
+	                    		cbp=A;
+	                    		}
+	                        	
+	                        	cjp = cartas.Next(1,14);
+	                        	Console.WriteLine("    A sua carta foi: " + baralho[cjp] + ".");
+	                        	if(cjp>=11 && cjp<=14){
+								cjp=10;
+	                    		}if(cjp==1){
+	                    		cjp=A;
+	                    		}
+	                    
+	                        	cardbanca = cardbanca +cbp;
+	                        	cardjog = cardjog + cjp;
+	                        	
+			                    Console.WriteLine("\n\tTotal de pontos da banca:  "+ cardbanca + ".");
+			                    Console.WriteLine("\tTotal de pontos do jogador:  "+ cardjog + ".");
+			                    
+			            
+			                    if(cardbanca>21 && cardjog>21){
+			                    	Console.WriteLine("    Os dois ultrapassaram os 21 pontos.");
+			                    	jogar=0; cont=0; break;
+			                    	}
+			                    if(cardjog==21 && cardbanca==21){
+			                    	Console.WriteLine("Os dois fizeram 21 pontos. Vitória da banca.");
+						            creditos = creditos - 10;
+						            jogar=0; cont=0; break;
+					                }
+			                    if(cardbanca>=21 || cardjog>=21){
+			                    	if(cardjog>=21){
+					                    		if(cardjog==21){
+								                    Console.WriteLine("\n    Você fez 21 pontos.");
+						                    		creditos = creditos + 10;
+						                    		jogar=0; cont=0; break;
+					                    		}if(cardjog>21){
+						                    		Console.WriteLine("\n    Você ultrapassou o limite de 21 pontos.");
+						                    		creditos = creditos - 10;
+						                    		jogar=0; cont=0; break;
+					                    		}
+			                    	} else if(cardbanca>=21){
+					                    		if(cardbanca==21){
+						                    		Console.WriteLine("\n    A banca fez 21 pontos.");
+						                    		creditos = creditos - 10;
+						                    		jogar=0; cont=0; break;
+					                    		}if(cardbanca>21){
+								                    Console.WriteLine("\n    A banca ultrapassou o limite de 21 pontos.");
+						                    		creditos = creditos + 10;
+						                    		jogar=0; cont=0; break;
+					                    		}
+			                    		}
+						Console.Write("\nCréditos: " + creditos);	                    	
+	                    	}
+	                    }else if(cont==0){
+	                        	if(cardbanca>cardjog){
+	                        		Console.WriteLine("    A banca chegou mais perto dos 21 pontos.");
+						            creditos = creditos - 10;
+	                        	}else if(cardjog>cardbanca){
+	                        		Console.WriteLine("    Você chegou mais perto dos 21 pontos.");
+	                        		creditos = creditos + 10;                       		
+	                        	}
+			            		jogar=0; break;
+	                        }
+	                    }
+	                    	cardbanca = 0; cardjog = 0;
+                    		Console.Write("\nCréditos: " + creditos);
+                    		if (creditos<=0){
+			            	Console.WriteLine("\nAcabou o seu crédito.");
+			            	Console.Write("Pressione qualquer tecla para terminar o programa.");
+			            	Console.ReadKey();
+			            	break;
+							}
+            		}
+            	}
+            }
+	    }
+   	}
+}
